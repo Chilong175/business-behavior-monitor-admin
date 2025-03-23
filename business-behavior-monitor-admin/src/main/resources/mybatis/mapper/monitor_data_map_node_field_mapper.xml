@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    MyBatis Mapper 配置文件
+    用于定义数据库操作映射，将数据库表结构与Java对象进行映射
+    namespace: 命名空间，用于隔离SQL语句，通常与Dao接口的全限定名一致
+-->
+<mapper namespace="plus.gaga.monitor.infrastructure.dao.IMonitorDataMapNodeFieldDao">
+
+    <!--
+        resultMap: 结果集映射，用于将数据库查询结果映射到Java对象
+        id: 结果集映射的唯一标识
+        type: Java对象的全限定名，表示查询结果应该映射到的Java类型
+    -->
+    <resultMap id="dataMap" type="plus.gaga.monitor.infrastructure.po.MonitorDataMapNodeField">
+        <!--
+            id: 主键字段映射
+            column: 数据库表中的列名
+            property: Java对象中的属性名
+        -->
+        <id column="id" property="id"/>
+        <!--
+            result: 非主键字段映射
+            column: 数据库表中的列名
+            property: Java对象中的属性名
+        -->
+        <result column="monitor_id" property="monitorId"/>
+        <result column="monitor_node_id" property="monitorNodeId"/>
+        <result column="log_name" property="logName"/>
+        <result column="log_index" property="logIndex"/>
+        <result column="log_type" property="logType"/>
+        <result column="attribute_name" property="attributeName"/>
+        <result column="attribute_field" property="attributeField"/>
+        <result column="attribute_ognl" property="attributeOgnl"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!--
+        select: 查询语句
+        id: 查询语句的唯一标识
+        parameterType: 传入参数的类型
+        resultMap: 使用的结果集映射的id
+    -->
+    <select id="queryMonitorDataMapNodeList" parameterType="plus.gaga.monitor.infrastructure.po.MonitorDataMapNodeField" resultMap="dataMap">
+        select monitor_id, monitor_node_id, log_name, log_index, log_type, attribute_name, attribute_field, attribute_ognl
+        from monitor_data_map_node_field
+        where monitor_id = #{monitorId} and monitor_node_id = #{monitorNodeId}
+    </select>
+
+</mapper>

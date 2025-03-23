@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 定义一个Mapper，命名空间为plus.gaga.monitor.infrastructure.dao.IMonitorDataMapDao -->
+<mapper namespace="plus.gaga.monitor.infrastructure.dao.IMonitorDataMapDao">
+
+    <!-- 定义结果集映射，将查询结果映射到MonitorDataMap类 -->
+    <resultMap id="dataMap" type="plus.gaga.monitor.infrastructure.po.MonitorDataMap">
+        <!-- 主键映射 -->
+        <id column="id" property="id"/>
+        <!-- 其他字段映射 -->
+        <result column="monitor_id" property="monitorId"/>
+        <result column="monitor_name" property="monitorName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 定义查询监控数据映射实体列表的SQL语句 -->
+    <select id="queryMonitorDataMapEntityList" resultMap="dataMap">
+        select monitor_id, monitor_name from monitor_data_map
+    </select>
+
+    <!-- 根据监控ID查询监控名称的SQL语句 -->
+    <select id="queryMonitorNameByMonitoryId" parameterType="java.lang.String" resultType="java.lang.String">
+        select monitor_name from monitor_data_map where monitor_id = #{monitorId}
+    </select>
+
+</mapper>

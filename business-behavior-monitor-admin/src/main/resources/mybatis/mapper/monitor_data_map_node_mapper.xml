@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 定义一个Mapper，用于处理监控数据地图节点的相关操作 -->
+<mapper namespace="plus.gaga.monitor.infrastructure.dao.IMonitorDataMapNodeDao">
+
+    <!-- 定义结果集映射，将查询结果映射到MonitorDataMapNode对象 -->
+    <resultMap id="dataMap" type="plus.gaga.monitor.infrastructure.po.MonitorDataMapNode">
+        <id column="id" property="id"/>
+        <result column="monitor_id" property="monitorId"/>
+        <result column="monitor_node_id" property="monitorNodeId"/>
+        <result column="monitor_node_name" property="monitorNodeName"/>
+        <result column="gather_system_name" property="gatherSystemName"/>
+        <result column="gather_clazz_name" property="gatherClazzName"/>
+        <result column="gather_method_name" property="gatherMethodName"/>
+        <result column="loc" property="loc"/>
+        <result column="color" property="color"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 查询监控数据地图节点列表，根据采集系统名称、采集类名和采集方法名筛选 -->
+    <select id="queryMonitoryDataMapNodeList" parameterType="plus.gaga.monitor.infrastructure.po.MonitorDataMapNode"
+            resultMap="dataMap">
+        select monitor_id, monitor_node_id, gather_system_name, gather_clazz_name, gather_method_name
+        from monitor_data_map_node
+        where gather_system_name = #{gatherSystemName} and gather_clazz_name = #{gatherClazzName} and gather_method_name
+        = #{gatherMethodName}
+    </select>
+
+    <!-- 根据监控ID查询监控节点配置 -->
+    <select id="queryMonitorNodeConfigByMonitorId" parameterType="java.lang.String" resultMap="dataMap">
+        select monitor_node_id, monitor_node_name, loc, color
+        from monitor_data_map_node
+        where monitor_id = #{monitorId}
+    </select>
+
+    <!-- 更新节点配置，包括节点位置 -->
+    <update id="updateNodeConfig" parameterType="plus.gaga.monitor.infrastructure.po.MonitorDataMapNode">
+        update monitor_data_map_node set loc = #{loc}
+        where monitor_id = #{monitorId} and monitor_node_id = #{monitorNodeId}
+    </update>
+
+</mapper>
