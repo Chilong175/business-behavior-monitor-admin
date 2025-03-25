@@ -1,0 +1,32 @@
+# 命令执行 docker-compose -f docker-compose-business-behavior-monitor-app.yml up -d
+version: '3.9'
+services:
+  business-behavior-monitor-app:
+    image: fuzhengwei/business-behavior-monitor-app:1.0
+    container_name: business-behavior-monitor-app
+    restart: always
+    ports:
+      - "7996:7996"
+    environment:
+      - TZ=PRC
+      - SERVER_PORT=7996
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/business-behavior-monitor?serverTimezone=UTC&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Shanghai
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_HIKARI_POOL_NAME=Retail_HikariCP
+      - REDIS_SDK_CONFIG_HOST=redis
+      - REDIS_SDK_CONFIG_PORT=6379
+    volumes:
+      - ./log:/data/log
+    networks:
+      - my-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  my-network:
+    driver: bridge
